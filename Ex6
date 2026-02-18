@@ -1,0 +1,64 @@
+package com.example.ex6;
+
+import android.graphics.drawable.AnimationDrawable;
+import android.media.MediaPlayer;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
+public class MainActivity extends AppCompatActivity {
+    ImageView img;
+    Button b1;
+
+    MediaPlayer m1;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        View b1 =  this.<View>findViewById(R.id.b);
+        img = (ImageView) findViewById(R.id.img);
+        m1 = MediaPlayer.create(MainActivity.this, R.raw.aud);
+
+//        Multithreading to play audio and swap images
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                new Thread(new Runnable() {
+
+                    public void run() {
+                        img.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                AnimationDrawable a=new AnimationDrawable();
+                                a.addFrame(ContextCompat.getDrawable(MainActivity.this, R.drawable.img1), 500);
+                                a.addFrame(ContextCompat.getDrawable(MainActivity.this, R.drawable.img2), 500);
+                                a.addFrame(ContextCompat.getDrawable(MainActivity.this, R.drawable.img3), 500);
+                                a.addFrame(ContextCompat.getDrawable(MainActivity.this, R.drawable.img4), 500);
+                                a.setOneShot(false);
+                                img.setBackgroundDrawable(a);
+                                a.start();
+                            }
+                        });
+                    }
+                }).start();
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        img.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                m1.start();
+                            }
+                        });
+                    }
+                }).start();
+            }
+        });
+    }
+}
