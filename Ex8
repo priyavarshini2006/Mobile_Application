@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         b1 = findViewById(R.id.buttonWrite);
         b2 = findViewById(R.id.buttonRead);
 
-        // Runtime Permission
+        
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -47,10 +47,10 @@ public class MainActivity extends AppCompatActivity {
                     1);
         }
 
-        // File Path
+       
         file = new File(getExternalFilesDir(null), "myfile.txt");
 
-        // WRITE BUTTON
+        
         b1.setOnClickListener(v -> {
 
             try {
@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // READ BUTTON
+        
         b2.setOnClickListener(v -> {
 
             try {
